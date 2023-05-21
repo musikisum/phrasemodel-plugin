@@ -1,3 +1,4 @@
+import * as Tone from 'tone';
 import { getMidiValueFromAbcNoteName, playTimeLineObj } from "./utils.js";
 
 function noteToFreq(note, halfTones = 0) {
