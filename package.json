@@ -1,0 +1,11 @@
+{
+  "name": "educandu-plugin-phrasemodels",
+  "version": "1.0.0",
+  "description": "plugin prototype for the educandu framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ulrich Kaiser",
+  "license": "MIT"
+}
