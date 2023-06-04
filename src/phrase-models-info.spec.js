@@ -1,4 +1,4 @@
-import ExampleInfo from './example-info.js';
+import PhraseModelsInfo from './phrase-models-info.js';
 import { beforeEach, describe, expect, it } from 'vitest';
 import GithubFlavoredMarkdown from '@educandu/educandu/common/github-flavored-markdown.js';
 
@@ -6,7 +6,7 @@ describe('example-info', () => {
   let sut;
 
   beforeEach(() => {
-    sut = new ExampleInfo(new GithubFlavoredMarkdown());
+    sut = new PhraseModelsInfo(new GithubFlavoredMarkdown());
   });
 
   describe('redactContent', () => {

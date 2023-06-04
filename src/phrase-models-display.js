@@ -16,7 +16,7 @@ export default function ServerTimeDisplay({ content }) {
   const { formatDate } = useDateFormat();
   const httpClient = useService(HttpClient);
   const [serverTime, setServerTime] = useState(null);
-  const { t } = useTranslation('educandu/educandu-plugin-example');
+  const { t } = useTranslation('musikisum/educandu-plugin-phrase-models');
 
   useEffect(() => {
     let nextTimeout = null;

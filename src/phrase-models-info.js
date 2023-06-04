@@ -5,17 +5,17 @@ import cloneDeep from '@educandu/educandu/utils/clone-deep.js';
 import { couldAccessUrlFromRoom } from '@educandu/educandu/utils/source-utils.js';
 import GithubFlavoredMarkdown from '@educandu/educandu/common/github-flavored-markdown.js';
 
-class ServerTimeInfo {
+class PhraseModelsInfo {
   static dependencies = [GithubFlavoredMarkdown];
 
-  static typeName = 'educandu/educandu-plugin-example';
+  static typeName = 'musikisum/educandu-plugin-phrase-models';
 
   constructor(gfm) {
     this.gfm = gfm;
   }
 
   getDisplayName(t) {
-    return t('educandu/educandu-plugin-example:name');
+    return t('musikisum/educandu-plugin-phrase-models:name');
   }
 
   getIcon() {
@@ -23,11 +23,11 @@ class ServerTimeInfo {
   }
 
   async resolveDisplayComponent() {
-    return (await import('./example-display.js')).default;
+    return (await import('./phrase-models-display.js')).default;
   }
 
   async resolveEditorComponent() {
-    return (await import('./example-editor.js')).default;
+    return (await import('./phrase-models-editor.js')).default;
   }
 
   getDefaultContent() {
@@ -66,4 +66,4 @@ class ServerTimeInfo {
   }
 }
 
-export default ServerTimeInfo;
+export default PhraseModelsInfo;

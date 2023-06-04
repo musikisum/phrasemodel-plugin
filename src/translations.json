@@ -1,12 +1,8 @@
 {
-  "educandu/educandu-plugin-example": {
+  "musikisum/educandu-plugin-phrase-models": {
     "name": {
-      "en": "Example plugin",
-      "de": "Beispiel-Plugin"
-    },
-    "currentServerTime": {
-      "en": "Current server time",
-      "de": "Aktuelle Serverzeit"
+      "en": "Phrase Models",
+      "de": "Satzmodelle"
     }
   }
 }

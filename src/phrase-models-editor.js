@@ -7,8 +7,8 @@ import MarkdownInput from '@educandu/educandu/components/markdown-input.js';
 import { sectionEditorProps } from '@educandu/educandu/ui/default-prop-types.js';
 import ObjectWidthSlider from '@educandu/educandu/components/object-width-slider.js';
 
-export default function ServerTimeEditor({ content, onContentChanged }) {
-  const { t } = useTranslation('educandu/educandu-plugin-example');
+export default function PhraseModelsEditor({ content, onContentChanged }) {
+  const { t } = useTranslation('musikisum/educandu-plugin-phrase-models');
   const { text, width } = content;
 
   const updateContent = newContentValues => {
@@ -40,6 +40,6 @@ export default function ServerTimeEditor({ content, onContentChanged }) {
   );
 }
 
-ServerTimeEditor.propTypes = {
+PhraseModelsEditor.propTypes = {
   ...sectionEditorProps
 };

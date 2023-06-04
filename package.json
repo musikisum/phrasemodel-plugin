@@ -1,5 +1,5 @@
 {
-  "name": "@musikisum/educandu--plugin-phrase-models",
+  "name": "@musikisum/educandu-plugin-phrase-models",
   "version": "0.0.0",
   "description": "A phrase-models plugin for educandu",
   "type": "module",
