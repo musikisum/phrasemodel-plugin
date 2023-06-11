@@ -24,7 +24,7 @@ export default function PhraseModelsEditor({ content, onContentChanged }) {
   };
 
   return (
-    <div className="EP_Educandu_Example_Editor">
+    <div className="EP_Educandu_Phrase_Models_Editor">
       <Form labelAlign="left">
         <Form.Item label={t('common:text')} {...FORM_ITEM_LAYOUT}>
           <MarkdownInput value={text} onChange={handleTextChanged} renderAnchors />
