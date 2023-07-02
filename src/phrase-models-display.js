@@ -1,8 +1,10 @@
 /* eslint-disable no-console */
 import { Button } from 'antd';
+import { ModelA } from './models.js';
 import { useTranslation } from 'react-i18next';
 // import { PlusOutlined } from '@ant-design/icons';
 import { useToneJsSampler } from './scripts/hooks.js';
+import { createTimelineObject } from './scripts/utils.js';
 import React, { useEffect, useState, useRef } from 'react';
 // import Logger from '@educandu/educandu/common/logger.js';
 import { getMidiValueFromAbcNoteName } from './scripts/utils.js';
@@ -40,6 +42,9 @@ export default function PhraseModelsDisplay({ content }) {
     function convertAbcArrToFreqArr(arrays) {
       return arrays.map(array => array.map(value => noteToFreq(getMidiValueFromAbcNoteName(value))));
     }
+
+    createTimelineObject([ModelA]);
+
     setTimeLineObj({
       current: {
         0: {
