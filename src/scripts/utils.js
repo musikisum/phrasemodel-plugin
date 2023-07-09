@@ -46,31 +46,7 @@ const NOTE_CONVERSION_MAP = (() => {
   return map;
 })();
 
-export function getMidiValueFromAbcNoteName(abcNoteName) {
-  const midiNoteName = NOTE_CONVERSION_MAP.get(abcNoteName);
+export function getMidiValueFromAbcNoteName(abcNoteName) {  const midiNoteName = NOTE_CONVERSION_MAP.get(abcNoteName);
   const midiValue = getMidiValueFromMidiNoteName(midiNoteName);
   return midiValue;
-}
-
-export function createTimelineObject(phraseModelArr) {
-  if (!phraseModelArr && phraseModelArr.length !== 1) {
-    return null;
-  }
-  const phraseModel = phraseModelArr[0];
-  const voices = Object.values(phraseModel);
-
-  for (let index = 0; index < voices.length; index++) {
-    const regex = /\d/g;
-    const voiceItemsString = voices[index].replaceAll(' |', '');
-    const voiceItems = voiceItemsString.split(' ');
-    const numberOfBeatsArr = voiceItemsString.match(regex);
-    const numberOfBeats = numberOfBeatsArr.reduce((accu, val) => {
-      const nv = Number(val);
-      return accu + nv; 
-    }, 0);
-
-    console.log(numberOfBeatsArr);
-    console.log(numberOfBeats);
-  }
-  
 }

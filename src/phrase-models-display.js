@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
 import { Button } from 'antd';
-import { ModelA } from './models.js';
+import { ModelA, ModelB, ModelC } from './models.js';
 import { useTranslation } from 'react-i18next';
 // import { PlusOutlined } from '@ant-design/icons';
 import { useToneJsSampler } from './scripts/hooks.js';
-import { createTimelineObject } from './scripts/utils.js';
 import React, { useEffect, useState, useRef } from 'react';
 // import Logger from '@educandu/educandu/common/logger.js';
 import { getMidiValueFromAbcNoteName } from './scripts/utils.js';
@@ -17,7 +16,7 @@ export default function PhraseModelsDisplay({ content }) {
   // Custom hooks returning state/ref variables
   const [sampler, toneNs] = useToneJsSampler(); // [ref, state]
 
-  const [timeLineObj, setTimeLineObj] = useState(null);
+  const timeLineObj = useRef(null);
 
   const playTimeLineObjRef = useRef(null);
 
@@ -31,42 +30,9 @@ export default function PhraseModelsDisplay({ content }) {
 
   useEffect(() => {
 
-    if (!toneNs) {
-      return;
-    }
+    timeLineObj.current = ModelB;
 
-    function noteToFreq(note, halfTones = 0) {
-      return toneNs.Frequency(note, 'midi').transpose(halfTones);
-    }
-
-    function convertAbcArrToFreqArr(arrays) {
-      return arrays.map(array => array.map(value => noteToFreq(getMidiValueFromAbcNoteName(value))));
-    }
-
-    createTimelineObject([ModelA]);
-
-    setTimeLineObj({
-      current: {
-        0: {
-          arrays: convertAbcArrToFreqArr([['g', 'e', 'C']]),
-          durations: [2]
-        },
-        1: {
-          arrays: convertAbcArrToFreqArr([['f', 'd'], ['C']]),
-          durations: [4, 2]
-        },
-        2: {
-          arrays: convertAbcArrToFreqArr([['B,']]),
-          durations: [2]
-        },
-        3: {
-          arrays: convertAbcArrToFreqArr([['e', 'c', 'C']]),
-          durations: [2]
-        }
-      }
-    });
-
-  }, [toneNs]);
+  }, []);
 
   useEffect(() => {
 
@@ -74,18 +40,28 @@ export default function PhraseModelsDisplay({ content }) {
       return;
     }
 
+    function noteToFreq(note, halfTones = 0) {
+      return toneNs.Frequency(note, 'midi').transpose(halfTones);
+    }
+
+    function convertAbcArrToFreqArr(pitches) {
+      return pitches.map(pitch => { 
+        const midiVal = getMidiValueFromAbcNoteName(pitch);
+        const freq = noteToFreq(midiVal)
+        return freq;
+      });
+    }
+
     playTimeLineObjRef.current = async () => {
-      const objVals = Object.values(timeLineObj.current);
+      const model = timeLineObj.current;
 
-      for (let i = 0; i < objVals.length; i += 1) {
-        let index = 0;
-        const obj = objVals[i];
-
-        while (index < objVals[i].arrays.length) {
-          sampler.current.triggerAttackRelease(obj.arrays[index], timeValue * obj.durations[index]);
-          index += 1;
+      for (const rhythmicPosition of model) {
+        
+        for (const pitchGroup of rhythmicPosition) {          
+          const pitches = pitchGroup.slice(0, -1);
+          const duration = pitchGroup[pitchGroup.length - 1]      
+          sampler.current.triggerAttackRelease(convertAbcArrToFreqArr(pitches), timeValue * duration);
         }
-
         await new Promise(res => {
           setTimeout(() => {
             res();
@@ -94,7 +70,7 @@ export default function PhraseModelsDisplay({ content }) {
       }
     };
 
-  }, [timeLineObj, sampler]);
+  }, [timeLineObj, sampler, toneNs]);
 
   return (
     <div className="EP_Educandu_Phrase_Models_Display">
