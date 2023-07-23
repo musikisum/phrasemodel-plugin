@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import { Button } from 'antd';
-import { ModelA, ModelB, ModelC } from './models.js';
 import { useTranslation } from 'react-i18next';
 // import { PlusOutlined } from '@ant-design/icons';
 import { useToneJsSampler } from './scripts/hooks.js';
@@ -8,6 +7,7 @@ import React, { useEffect, useState, useRef } from 'react';
 // import Logger from '@educandu/educandu/common/logger.js';
 import { getMidiValueFromAbcNoteName } from './scripts/utils.js';
 import { sectionDisplayProps } from '@educandu/educandu/ui/default-prop-types.js';
+import { Models } from './models.js';
 
 // const logger = new Logger(import.meta.url);
 
@@ -30,8 +30,8 @@ export default function PhraseModelsDisplay({ content }) {
 
   useEffect(() => {
 
-    timeLineObj.current = ModelB;
-
+   // timeLineObj.current = Models.ModelA;
+    timeLineObj.current = Models.playableArr(Models.Quintfallsequenz);
   }, []);
 
   useEffect(() => {
@@ -78,6 +78,7 @@ export default function PhraseModelsDisplay({ content }) {
       <Button id="btn" type="primary" icon={null} onClick={handlePlayButtonClick}>
         Play!
       </Button>
+      <div>{Models.Quintfallsequenz.description}</div>
     </div>
   );
 }

@@ -1,22 +1,44 @@
-export const ModelProtoA = {
+const modelProtoA = {
   name: '',
-  displayName: '',
-  description: '',
-  voiceUpper: ['e2', 'd4', 'c2'],
-  voiceInner: ['g2', 'f4', 'e2'],
-  voiceLower: ['C2', 'C2', 'B2', 'C2']
+  displayName: 'Initialmodell',
+  description: 'Erklingt meistens am Anfang eines musikalischen Abschnitts.',
+  voiceUpper: ['g', 'f', 'f', 'e'],
+  voiceInner: ['e', 'd', 'd', 'c'],
+  voiceLower: ['C', 'C', 'B,', 'C'],
+  defaultValue: 2
 }
 
-// TODO Implement algorithm to generate an array for Playback function    
+const modelProtoB = {
+  name: '',
+  displayName: 'Quintfallsequenz',
+  description: 'Erklingt gefühlt in 50% der Musik des 17. und 18. Jahrhunderts.',
+  voiceUpper: ['g', 'a', 'a', 'g', 'g', 'f', 'f', 'e'],
+  voiceInner: ['e', 'e', 'd', 'd', 'c', 'c', 'B', 'c'],
+  voiceLower: ['C', 'F,', 'B,', 'E,', 'A,', 'D,', 'G,', 'C,'],
+  defaultValue: 2
+}
 
-export const ModelA = [
-  [['g', 'e', 'C', 2]],
-  [['f', 'd', 4], ['C', 2]],
-  [['B,', 2]],
-  [['e', 'c', 'C', 2]]
-]
+// TODO Implement algorithm to generate an array for Playback function
 
-export const ModelB = [
+function getPlayableArray(model) {
+  const numberOfNotes = model.voiceUpper.length;
+  if (model.voiceInner.length !== numberOfNotes && model.voiceLower.length !== numberOfNotes) {
+    throw new Error('Invalid number of tones in one or more phrase model voices');  
+  }
+  const playArrs = [];
+  for (let i = 0; i < numberOfNotes; i++) {    
+    let test = splitArrays(model.voiceUpper[i], model.voiceInner[i], model.voiceLower[i], model.defaultValue);
+    playArrs.push([test]);
+  }
+  return playArrs;
+};
+
+// TODO Create for double entries playable arrays  
+function splitArrays(voiceUpper, voiceInner, voiceLower, duration) {
+  return [voiceUpper, voiceInner, voiceLower, duration];
+}
+
+const modelB = [
   [['g', 'e', 'C', 2]],
   [['a', 4], ['e', 'F,', 2]],
   [['d', 'B,', 2]],
@@ -27,14 +49,20 @@ export const ModelB = [
   [['e', 'c', 'C,', 2]]
 ]
 
-export const ModelC = {
+const modelC = {
   0: 'e2 | d4 | c4 | B2',
   1: 'G2 | ^F2  G2 | G2 ^F2 | G2',
   2: 'C,2 | C,2 B,2 | A,2 D,2 | G,2'
 }
 
-export const ModelD = {
+const modelD = {
   0: 'B2 | A4 | B2',
   1: 'G2 | G2 ^F2 | G2',
   2: 'B,,2 | C,2 D,2 | G,2'
+}
+
+export const Models = {
+  Initialkadenz: modelProtoA,
+  Quintfallsequenz: modelProtoB,
+  playableArr: getPlayableArray
 }
