@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 // import { PlusOutlined } from '@ant-design/icons';
 import { useToneJsSampler } from './scripts/hooks.js';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 // import Logger from '@educandu/educandu/common/logger.js';
 import { getMidiValueFromAbcNoteName } from './scripts/utils.js';
 import { sectionDisplayProps } from '@educandu/educandu/ui/default-prop-types.js';
@@ -30,8 +30,8 @@ export default function PhraseModelsDisplay({ content }) {
 
   useEffect(() => {
 
-  timeLineObj.current = Models.GetPlayableArray(Models.Quintfallsequenz);
-  // timeLineObj.current = Models.GetPlayableArray(Models.Initialkadenz);
+    timeLineObj.current = Models.getPlayableArray(Models.Quintfallsequenz);
+    // timeLineObj.current = Models.getPlayableArray(Models.Initialkadenz);
   }, []);
 
   useEffect(() => {
@@ -41,25 +41,24 @@ export default function PhraseModelsDisplay({ content }) {
     }
 
     function noteToFreq(note, halfTones = 0) {
+      // eslint-disable-next-line new-cap
       return toneNs.Frequency(note, 'midi').transpose(halfTones);
     }
 
     function convertAbcArrToFreqArr(pitches) {
-      return pitches.map(pitch => { 
+      return pitches.map(pitch => {
         const midiVal = getMidiValueFromAbcNoteName(pitch);
-        const freq = noteToFreq(midiVal)
+        const freq = noteToFreq(midiVal);
         return freq;
       });
     }
 
     playTimeLineObjRef.current = async () => {
       const model = timeLineObj.current;
-
       for (const rhythmicPosition of model) {
-        
-        for (const pitchGroup of rhythmicPosition) {          
+        for (const pitchGroup of rhythmicPosition) {
           const pitches = pitchGroup.slice(0, -1);
-          const duration = pitchGroup[pitchGroup.length - 1]      
+          const duration = pitchGroup[pitchGroup.length - 1];
           sampler.current.triggerAttackRelease(convertAbcArrToFreqArr(pitches), timeValue * duration);
         }
         await new Promise(res => {
