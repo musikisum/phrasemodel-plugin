@@ -30,8 +30,8 @@ export default function PhraseModelsDisplay({ content }) {
 
   useEffect(() => {
 
-  //  timeLineObj.current = Models.GetPlayableArray(Models.Quintfallsequenz);
-  timeLineObj.current = Models.GetPlayableArray(Models.Initialkadenz);
+  timeLineObj.current = Models.GetPlayableArray(Models.Quintfallsequenz);
+  // timeLineObj.current = Models.GetPlayableArray(Models.Initialkadenz);
   }, []);
 
   useEffect(() => {

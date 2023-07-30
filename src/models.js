@@ -1,3 +1,4 @@
+// Modells
 const modelProtoA = {
   name: '',
   displayName: 'Initialmodell',
@@ -18,6 +19,7 @@ const modelProtoB = {
   defaultValue: 2
 }
 
+// Playable arrays for testing the getPlayableArray function
 const modelA = [
   [['C', 4], ['g', 'e', 2]],
   [['f', 'd', 4]],
@@ -39,17 +41,15 @@ const modelB = [
 // Generate an array for tonejs playback function
 function getPlayableArray(model) {
 
-  // Valdidate phrase model voices  
-  const numberOfNotes = model.voiceUpper.length;
-  const defaultValue = model.defaultValue;
-  if (model.voiceInner.length !== numberOfNotes && model.voiceLower.length !== numberOfNotes) {
-    throw new Error('Invalid number of tones in one or more phrase model voices');  
-  }
-  if (numberOfNotes < 2) {
-    throw new Error('A Chord is not a phrase model');
-  }
+  // Valdidate phrase model voices 
+  validateModel(model); 
+
+  const numberOfScaleDegrees = model.voiceUpper.length;
+  const defaultValue = model.defaultValue;  
   const chordsArr = [];
-  for (let i = 0; i < numberOfNotes; i++) {
+
+  // Convert model voices in playable arrays of chords 
+  for (let i = 0; i < numberOfScaleDegrees; i++) {
     chordsArr.push([
       model.voiceUpper[i],
       model.voiceInner[i],
@@ -57,49 +57,71 @@ function getPlayableArray(model) {
       model.defaultValue
     ]);    
   }
-  // Generate playable arrays
-  const playArrs = [];
-  let indexArr, lookUpArr, tempArr;
-  for (let i = 0; i < numberOfNotes; i++) {
-    if(i + 1 < numberOfNotes) {
-      indexArr = chordsArr[i];
-      lookUpArr = chordsArr[i+1];      
-      const values = arrayComparer(indexArr, lookUpArr);
-      if (values) {
-        // store two arrays, if value matched
-        tempArr = indexArr.splice(values.arr1Index, 1).slice();
-        tempArr.push(defaultValue * 2);
-        playArrs.push([tempArr, indexArr.slice()]); 
-        // delete matched entry in next loop
-        lookUpArr.splice(values.arr2Index, 1);             
-      } else {
-        // store copy of indexArr, if now value matched
-        playArrs.push([indexArr.slice()])
-      }   
+
+// Replace scale degree repetitions 
+const playArrs = [];
+let indexChord, nextIndexChord, tempChord;
+for (let i = 0; i < numberOfScaleDegrees; i++) {
+  if(i + 1 < numberOfScaleDegrees) {
+    indexChord = chordsArr[i];
+    nextIndexChord = chordsArr[i+1];      
+    const indices = arrayComparer(indexChord, nextIndexChord);
+    if (indices.length) {
+      // split and store arrays, if scale degree repetitions has matched
+      for (let y = 0; y < indices.length; y++) {
+        const indexChordCopyWithspecialValues = indexChord.slice();
+        
+        // Save playable item 
+        tempChord = indexChord.splice(indices[y][0], 1).slice();
+        nextIndexChord.splice(indices[y][1], 1);          
+        // delete matched entries in the current an next chord
+        tempChord.push(defaultValue * 2);
+        playArrs.push([tempChord, indexChord.slice()]);
+      }                
     } else {
-      playArrs.push([chordsArr[chordsArr.length - 1]]);
-    }
+      // store copy of indexChord, if no value matched
+      playArrs.push([indexChord.slice()])
+    }   
+  } else {
+    playArrs.push([chordsArr[chordsArr.length - 1]]);
   }
-  console.log(modelB);
-  console.log(playArrs);
-  return playArrs;
+}
+console.log(modelB);
+console.log(playArrs);
+return playArrs;
 };
 
-// Compares two arrays and returns an array of indices for the values. 
+// Compares two arrays and returns arrays with indices for duplicate scale degrees. 
 function arrayComparer(arr1, arr2) {  
-  const indices = {}
+  const indices = [];
   for (let i = 0; i < arr1.length - 1; i++) {
-    const value = arr1[i];
-    const contains = arr2.indexOf(value);
+    const contains = arr2.indexOf(arr1[i]);
     if (contains > -1) {
-      indices.arr1Index = i;
-      indices.arr2Index = contains;
-      return indices;
+      indices.push([i, contains])
     }    
   }
-  return null;  
+  return indices;  
 }
 
+// Filter to remove special values
+function removeSpecialValuesFromArray(chord, specialValue) {
+  return chord.filter(scaleDegree => scaleDegree !== specialValue);
+} 
+
+// Check if the voices of a model can be converted into a playable array. 
+function validateModel(model) {
+  // Check if the number of scale degrees in each voice is the same.
+  const number = model.voiceUpper.length;
+  if (model.voiceInner.length !== number && model.voiceLower.length !== number) {
+    throw new Error('Invalid number of tones in one or more phrase model voices');  
+  }
+  // Check if the model has at least two chords.
+  if (number < 2) {
+    throw new Error('A chord is not a phrase model');
+  }
+}
+
+// Exporting the models and the function to create playable arrays from model voices. 
 export const Models = {
   Initialkadenz: modelProtoA,
   Quintfallsequenz: modelProtoB,
