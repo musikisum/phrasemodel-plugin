@@ -30,8 +30,8 @@ export default function PhraseModelsDisplay({ content }) {
 
   useEffect(() => {
 
-    timeLineObj.current = Models.getPlayableArray(Models.Quintfallsequenz);
-    // timeLineObj.current = Models.getPlayableArray(Models.Initialkadenz);
+    // timeLineObj.current = Models.getPlayableArray(Models.CircleOfFifths);
+    timeLineObj.current = Models.ModulationFifthUp.getPlayableArray();
   }, []);
 
   useEffect(() => {
@@ -77,7 +77,6 @@ export default function PhraseModelsDisplay({ content }) {
       <Button id="btn" type="primary" icon={null} onClick={handlePlayButtonClick}>
         Play!
       </Button>
-      <div>{Models.Quintfallsequenz.description}</div>
     </div>
   );
 }
