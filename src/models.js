@@ -30,14 +30,50 @@ const modulationFifthUpData = {
   defaultValue: 2
 };
 
+const paralelismData = {
+  name: '',
+  displayName: 'Parallelismus',
+  description: 'Die andere Welt der Sequenzen (in Terzen).',
+  voiceUpper: ['e', 'd', 'c', 'B', 'A', 'G'],
+  voiceInner: ['c', 'B', 'A', 'G', 'F', 'E'],
+  voiceLower: ['C', 'G,', 'A,', 'E,', 'F,', 'C,'],
+  defaultValue: 2
+};
+
+const paralelismWithSyncopationsData = {
+  name: '',
+  displayName: 'Parallelismus',
+  description: 'Die andere Welt der Sequenzen (in Terzen).',
+  voiceUpper: ['e', 'd', 'd', 'c', 'c', 'B', 'B', 'A', 'A', 'G', 'G'],
+  voiceInner: ['c', 'c', 'B', 'B', 'A', 'A', 'G', 'G', 'F', 'F', 'E'],
+  voiceLower: ['C', 'G,', 'G,', 'A,', 'A,', 'E,', 'E,', 'F,', 'F,', 'C,', 'C,'],
+  defaultValue: 2
+};
+
+const diminishedParalelismWithSyncopationsData = {
+  name: '',
+  displayName: 'Parallelismus',
+  description: 'Die andere Welt der Sequenzen (in Terzen).',
+  voiceUpper: ['e', 'd', 'd', 'c', 'c', '_B', '_B', 'A', 'A'],
+  voiceInner: ['c', 'c', 'B', 'B', 'A', 'A', 'G', 'G', 'F'],
+  voiceLower: ['E,', '^F,', '^G,', 'A,', 'C,', 'D,', 'E,', 'F,', 'F,'],
+  defaultValue: 2
+};
+
 // Model instances for export
 const InitialCadence = new PhraseModel(initialCadenceData);
 const CircleOfFifths = new PhraseModel(circleOfFifthsData);
 const ModulationFifthUp = new PhraseModel(modulationFifthUpData);
+const Paralelism = new PhraseModel(paralelismData);
+const ParalelismWithSyncopations = new PhraseModel(paralelismWithSyncopationsData);
+const DiminishedParalelismWithSyncopations = new PhraseModel(diminishedParalelismWithSyncopationsData);
 
 // Exporting the models and the function to create playable arrays from model voices.
 export const Models = {
   InitialCadence,
   CircleOfFifths,
-  ModulationFifthUp
+  ModulationFifthUp,
+  Paralelism,
+  ParalelismWithSyncopations,
+  DiminishedParalelismWithSyncopations
 };

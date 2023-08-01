@@ -29,9 +29,10 @@ export default function PhraseModelsDisplay({ content }) {
   };
 
   useEffect(() => {
-
+    // eslint-disable-next-line no-warning-comments
+    // TODO: Terminate error for false param in getPlayableArray function
     // timeLineObj.current = Models.getPlayableArray(Models.CircleOfFifths);
-    timeLineObj.current = Models.ModulationFifthUp.getPlayableArray();
+    timeLineObj.current = Models.DiminishedParalelismWithSyncopations.getPlayableArray(true);
   }, []);
 
   useEffect(() => {
@@ -55,6 +56,7 @@ export default function PhraseModelsDisplay({ content }) {
 
     playTimeLineObjRef.current = async () => {
       const model = timeLineObj.current;
+      console.log(model);
       for (const rhythmicPosition of model) {
         for (const pitchGroup of rhythmicPosition) {
           const pitches = pitchGroup.slice(0, -1);

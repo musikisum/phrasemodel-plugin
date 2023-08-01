@@ -18,9 +18,13 @@ export default class PhraseModel {
   }
 
   // Generate an array for tonejs playback function
-  getPlayableArray() {
+  getPlayableArray(withSyncopations) {
     const numberOfScaleDegrees = this.voiceUpper.length;
     const chordsArr = this.getChords();
+    if (!withSyncopations) {
+      console.log(chordsArr);
+      return chordsArr;
+    }
     const playArrs = [];
     let indexChord;
     let nextIndexChord;
@@ -44,7 +48,7 @@ export default class PhraseModel {
           playArrs.push([[...this.removeSpecialValuesFromArray(indexChord, null)]]);
         }
       } else {
-        playArrs.push([chordsArr[i]]);
+        playArrs.push([this.removeSpecialValuesFromArray(chordsArr[i], null)]);
       }
     }
     return playArrs;
