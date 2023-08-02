@@ -7,11 +7,13 @@ import React, { useEffect, useRef } from 'react';
 // import Logger from '@educandu/educandu/common/logger.js';
 import { getMidiValueFromAbcNoteName } from './scripts/utils.js';
 import { sectionDisplayProps } from '@educandu/educandu/ui/default-prop-types.js';
-import { Models } from './models.js';
+import Models from './models.js';
 
 // const logger = new Logger(import.meta.url);
 
 export default function PhraseModelsDisplay({ content }) {
+
+  console.log(content);
 
   // Custom hooks returning state/ref variables
   const [sampler, toneNs] = useToneJsSampler(); // [ref, state]
@@ -28,15 +30,15 @@ export default function PhraseModelsDisplay({ content }) {
     playTimeLineObjRef.current();
   };
 
+
   useEffect(() => {
-    // eslint-disable-next-line no-warning-comments
-    // TODO: Terminate error for false param in getPlayableArray function
-    // timeLineObj.current = Models.getPlayableArray(Models.CircleOfFifths);
-    const arr1 = Models.DiminishedParalelismWithSyncopations.getPlayableArray(false);
-    const arr2 = Models.DiminishedParalelismWithSyncopations.getPlayableArray(true);
-    console.log(arr1);
-    console.log(arr2);
-    timeLineObj.current = arr1;
+    console.log(Models);
+    const temp = content.phraseModels.map(name => {
+      console.log(name);
+      const mod = Models[name];
+      return mod.getPlayableArray(true);
+    });
+    timeLineObj.current = temp;
   }, []);
 
   useEffect(() => {
@@ -60,19 +62,20 @@ export default function PhraseModelsDisplay({ content }) {
     }
 
     playTimeLineObjRef.current = async () => {
-      const model = timeLineObj.current;
-      console.log(model);
-      for (const rhythmicPosition of model) {
-        for (const pitchGroup of rhythmicPosition) {
-          const pitches = pitchGroup.slice(0, -1);
-          const duration = pitchGroup[pitchGroup.length - 1];
-          sampler.current.triggerAttackRelease(convertAbcArrToFreqArr(pitches), timeValue * duration);
+      const models = timeLineObj.current;
+      for (const model of models) {
+        for (const rhythmicPosition of model) {
+          for (const pitchGroup of rhythmicPosition) {
+            const pitches = pitchGroup.slice(0, -1);
+            const duration = pitchGroup[pitchGroup.length - 1];
+            sampler.current.triggerAttackRelease(convertAbcArrToFreqArr(pitches), timeValue * duration);
+          }
+          await new Promise(res => {
+            setTimeout(() => {
+              res();
+            }, 1000);
+          });
         }
-        await new Promise(res => {
-          setTimeout(() => {
-            res();
-          }, 1000);
-        });
       }
     };
 

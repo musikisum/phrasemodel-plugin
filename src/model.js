@@ -3,6 +3,7 @@
 export default class PhraseModel {
   constructor(model) {
     this.name = model.name;
+    this.displayName = model.displayName;
     this.description = model.description;
     this.voiceUpper = model.voiceUpper;
     this.voiceInner = model.voiceInner;

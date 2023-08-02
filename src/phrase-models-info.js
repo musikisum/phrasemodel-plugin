@@ -33,14 +33,14 @@ class PhraseModelsInfo {
   getDefaultContent() {
     return {
       text: '',
-      width: 100
+      phraseModels: []
     };
   }
 
   validateContent(content) {
     const schema = joi.object({
       text: joi.string().allow('').required(),
-      width: joi.number().min(0).max(100).required()
+      phraseModels: joi.array().required()
     });
 
     joi.attempt(content, schema, { abortEarly: false, convert: false, noDefaults: true });

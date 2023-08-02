@@ -1,7 +1,7 @@
 import PhraseModel from './model.js';
 
 const initialCadenceData = {
-  name: '',
+  name: 'InitialCadence',
   displayName: 'Initialmodell',
   description: 'Erklingt meistens am Anfang eines musikalischen Abschnitts.',
   voiceUpper: ['g', 'f', 'f', 'e'],
@@ -11,7 +11,7 @@ const initialCadenceData = {
 };
 
 const circleOfFifthsData = {
-  name: '',
+  name: 'CircleOfFifths',
   displayName: 'Quintfallsequenz',
   description: 'Erklingt gefühlt in 50% der Musik des 17. und 18. Jahrhunderts.',
   voiceUpper: ['g', 'a', 'a', 'g', 'g', 'f', 'f', 'e'],
@@ -21,7 +21,7 @@ const circleOfFifthsData = {
 };
 
 const modulationFifthUpData = {
-  name: '',
+  name: 'ModulationFifthUp',
   displayName: 'Oberquintmodulationsmodell',
   description: 'Standardmodulation in die Tonart der Oberquinte.',
   voiceUpper: ['e', 'd', 'd', 'c', 'c', 'B'],
@@ -31,7 +31,7 @@ const modulationFifthUpData = {
 };
 
 const paralelismData = {
-  name: '',
+  name: 'Paralelism',
   displayName: 'Parallelismus',
   description: 'Die andere Welt der Sequenzen (in Terzen).',
   voiceUpper: ['e', 'd', 'c', 'B', 'A', 'G'],
@@ -41,8 +41,8 @@ const paralelismData = {
 };
 
 const paralelismWithSyncopationsData = {
-  name: '',
-  displayName: 'Parallelismus',
+  name: 'ParalelismWithSyncopations',
+  displayName: 'Parallelismus 2',
   description: 'Die andere Welt der Sequenzen (in Terzen).',
   voiceUpper: ['e', 'd', 'd', 'c', 'c', 'B', 'B', 'A', 'A', 'G', 'G'],
   voiceInner: ['c', 'c', 'B', 'B', 'A', 'A', 'G', 'G', 'F', 'F', 'E'],
@@ -51,8 +51,8 @@ const paralelismWithSyncopationsData = {
 };
 
 const diminishedParalelismWithSyncopationsData = {
-  name: '',
-  displayName: 'Parallelismus',
+  name: 'DiminishedParalelismWithSyncopations',
+  displayName: 'Parallelismus 3',
   description: 'Die andere Welt der Sequenzen (in Terzen).',
   voiceUpper: ['e', 'd', 'd', 'c', 'c', '_B', '_B', 'A', 'A', 'G', 'G', 'F'],
   voiceInner: ['c', 'c', 'B', 'B', 'A', 'A', 'G', 'G', 'F', 'F', 'E', 'D'],
@@ -69,7 +69,7 @@ const ParalelismWithSyncopations = new PhraseModel(paralelismWithSyncopationsDat
 const DiminishedParalelismWithSyncopations = new PhraseModel(diminishedParalelismWithSyncopationsData);
 
 // Exporting the models and the function to create playable arrays from model voices.
-export const Models = {
+const Models = {
   InitialCadence,
   CircleOfFifths,
   ModulationFifthUp,
@@ -77,3 +77,5 @@ export const Models = {
   ParalelismWithSyncopations,
   DiminishedParalelismWithSyncopations
 };
+
+export default Models;
