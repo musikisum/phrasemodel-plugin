@@ -22,8 +22,7 @@ export default class PhraseModel {
     const numberOfScaleDegrees = this.voiceUpper.length;
     const chordsArr = this.getChords();
     if (!withSyncopations) {
-      console.log(chordsArr);
-      return chordsArr;
+      return chordsArr.map(arr => [arr]);
     }
     const playArrs = [];
     let indexChord;

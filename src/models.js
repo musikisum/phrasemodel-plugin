@@ -54,9 +54,9 @@ const diminishedParalelismWithSyncopationsData = {
   name: '',
   displayName: 'Parallelismus',
   description: 'Die andere Welt der Sequenzen (in Terzen).',
-  voiceUpper: ['e', 'd', 'd', 'c', 'c', '_B', '_B', 'A', 'A'],
-  voiceInner: ['c', 'c', 'B', 'B', 'A', 'A', 'G', 'G', 'F'],
-  voiceLower: ['E,', '^F,', '^G,', 'A,', 'C,', 'D,', 'E,', 'F,', 'F,'],
+  voiceUpper: ['e', 'd', 'd', 'c', 'c', '_B', '_B', 'A', 'A', 'G', 'G', 'F'],
+  voiceInner: ['c', 'c', 'B', 'B', 'A', 'A', 'G', 'G', 'F', 'F', 'E', 'D'],
+  voiceLower: ['E,', '^F,', '^G,', 'A,', 'C,', 'D,', 'E,', 'F,', 'A,,', 'B,,', '^C,', 'D,'],
   defaultValue: 2
 };
 

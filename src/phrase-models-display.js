@@ -32,7 +32,11 @@ export default function PhraseModelsDisplay({ content }) {
     // eslint-disable-next-line no-warning-comments
     // TODO: Terminate error for false param in getPlayableArray function
     // timeLineObj.current = Models.getPlayableArray(Models.CircleOfFifths);
-    timeLineObj.current = Models.DiminishedParalelismWithSyncopations.getPlayableArray(true);
+    const arr1 = Models.DiminishedParalelismWithSyncopations.getPlayableArray(false);
+    const arr2 = Models.DiminishedParalelismWithSyncopations.getPlayableArray(true);
+    console.log(arr1);
+    console.log(arr2);
+    timeLineObj.current = arr1;
   }, []);
 
   useEffect(() => {
@@ -47,6 +51,7 @@ export default function PhraseModelsDisplay({ content }) {
     }
 
     function convertAbcArrToFreqArr(pitches) {
+      console.log(typeof pitches);
       return pitches.map(pitch => {
         const midiVal = getMidiValueFromAbcNoteName(pitch);
         const freq = noteToFreq(midiVal);
