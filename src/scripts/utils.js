@@ -46,7 +46,12 @@ const NOTE_CONVERSION_MAP = (() => {
   return map;
 })();
 
-export function getMidiValueFromAbcNoteName(abcNoteName) {  const midiNoteName = NOTE_CONVERSION_MAP.get(abcNoteName);
+export function getMidiValueFromAbcNoteName(abcNoteName) {
+  const midiNoteName = NOTE_CONVERSION_MAP.get(abcNoteName);
   const midiValue = getMidiValueFromMidiNoteName(midiNoteName);
   return midiValue;
+}
+
+export function midiToFrequency(midiValue) {
+  return 440 * (2 ** ((midiValue - 69) / 12));
 }

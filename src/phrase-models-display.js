@@ -1,23 +1,21 @@
 /* eslint-disable no-console */
 import { Button } from 'antd';
+import Models from './models.js';
 import { useTranslation } from 'react-i18next';
-// import { PlusOutlined } from '@ant-design/icons';
 import { useToneJsSampler } from './scripts/hooks.js';
 import React, { useEffect, useRef } from 'react';
 // import Logger from '@educandu/educandu/common/logger.js';
-import { getMidiValueFromAbcNoteName } from './scripts/utils.js';
+import { getMidiValueFromAbcNoteName, midiToFrequency } from './scripts/utils.js';
 import { sectionDisplayProps } from '@educandu/educandu/ui/default-prop-types.js';
-import Models from './models.js';
 
 // const logger = new Logger(import.meta.url);
 
 export default function PhraseModelsDisplay({ content }) {
 
-  console.log(content);
-
   // Custom hooks returning state/ref variables
-  const [sampler, toneNs] = useToneJsSampler(); // [ref, state]
+  const [sampler, hasSamplerLoaded] = useToneJsSampler(); // ref
 
+  const stopPlayback = useRef(false);
   const timeLineObj = useRef(null);
 
   const playTimeLineObjRef = useRef(null);
@@ -29,7 +27,6 @@ export default function PhraseModelsDisplay({ content }) {
   const handlePlayButtonClick = () => {
     playTimeLineObjRef.current();
   };
-
 
   useEffect(() => {
     console.log(Models);
@@ -47,16 +44,15 @@ export default function PhraseModelsDisplay({ content }) {
       return;
     }
 
-    function noteToFreq(note, halfTones = 0) {
+    function noteToFreqency(note) {
       // eslint-disable-next-line new-cap
-      return toneNs.Frequency(note, 'midi').transpose(halfTones);
+      return midiToFrequency(note, 'midi');
     }
 
     function convertAbcArrToFreqArr(pitches) {
-      console.log(typeof pitches);
       return pitches.map(pitch => {
         const midiVal = getMidiValueFromAbcNoteName(pitch);
-        const freq = noteToFreq(midiVal);
+        const freq = noteToFreqency(midiVal);
         return freq;
       });
     }
@@ -66,6 +62,9 @@ export default function PhraseModelsDisplay({ content }) {
       for (const model of models) {
         for (const rhythmicPosition of model) {
           for (const pitchGroup of rhythmicPosition) {
+            if (stopPlayback.current) {
+              return;
+            }
             const pitches = pitchGroup.slice(0, -1);
             const duration = pitchGroup[pitchGroup.length - 1];
             sampler.current.triggerAttackRelease(convertAbcArrToFreqArr(pitches), timeValue * duration);
@@ -79,7 +78,18 @@ export default function PhraseModelsDisplay({ content }) {
       }
     };
 
-  }, [timeLineObj, sampler, toneNs]);
+  }, [timeLineObj, sampler]);
+
+  // TODO: Stop notes immediately
+  useEffect(() => {
+    return function cleanUp() {
+      if (sampler && hasSamplerLoaded) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        sampler.current.releaseAll();
+        stopPlayback.current = true;
+      }
+    };
+  });
 
   return (
     <div className="EP_Educandu_Phrase_Models_Display">
